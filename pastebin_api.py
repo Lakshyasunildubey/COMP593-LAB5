@@ -4,10 +4,34 @@ https://pastebin.com/doc_api
 '''
 import requests
 
-PASTEBIN_API_POST_URL = 'https://pastebin.com/api/api_post.php'
-API_DEV_KEY = 'Put your API key here'
+PASTEBIN_API_POST_URL = 'https://pastebin.com/doc_api'
+API_DEV_KEY = '6Cvl7XkgS0M3Xhz1eWS0oN6gExVgII3y'
 
 def post_new_paste(title, body_text, expiration='N', listed=True):
+    params = {
+        'api_dev_key': API_DEV_KEY,
+        'api_option': 'paste',
+        'api_paste_code': body_text,
+        'api_paste_name': title,
+        'api_paste_expire_date': expiration,
+        'api_paste_private': 0 if listed else 1
+    }
+    print("Sending request to pastebin_api")
+    response = requests.post(PASTEBIN_API_POST_URL, data=params)
+    
+    paste_url = post_new_paste("Test Paste", "This one is for testing the paste.", "10M", True)
+    if paste_url:
+        print("Paste URL:", paste_url)
+    else:
+        print("Failed")
+    
+    if response.status_code == 200 and response.text.startswith('https://'):
+        print("Paste created successfully!")
+        return response.text
+    else:
+        print("Failed to paste. Response status code:", response.status_code)
+        print("Response text:", response.text)
+        return None
     """Posts a new paste to PasteBin
 
     Args:
