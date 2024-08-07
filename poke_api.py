@@ -12,7 +12,7 @@ def main(pokemon):
     return
 
 def get_pokemon_info(pokemon_name):
-    pokemon = str(pokemon).strip().lower()
+    pokemon = str(pokemon_name).strip().lower()
     print(f"Getting information on {pokemon}.")
 
     url = f"https://pokeapi.co/api/v2/pokemon/{pokemon}"
